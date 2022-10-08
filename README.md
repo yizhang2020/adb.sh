@@ -6,10 +6,10 @@ Assuming the user understands the basic operation of [how Android adb works](htt
 **adb.sh** will provide a standard Linux terminal shortcuts  with Double-\<TAB\> (**\<TAB\> \<TAB\>**) for the following operations:
 
 * **init** : automatically install **adb** and **fastboot** binary for you
-* **udev** : automatically check the connected USB devices, create **udev** rules, insert into **/etc/udev/rules.d/51-android.rules** file, and reload the rules
+* **udev** : automatically check the connected USB devices, create **udev** rules, and insert into /etc/udev/rules.d/51-android.rules file, then reload the rules
 * **devices**: print a text table to list connected android devices
-* **shell**: shortcut of **adb -s \<dsn\> shell** -- the beauty is that you don't have to enter the **-s \<dsn\>** yourself, the <tab><tab> will find it for you
-* **logs** : short cut of **adb -s \<dsn\> logcat** 
+* **shell**: shortcut of **adb -s \<dsn\> shell** -- the beauty is you don't have to enter the **-s \<dsn\>** yourself, the <tab><tab> will find it for you
+* **logs** : shortcut of **adb -s \<dsn\> logcat** 
 * **screen_shot**: take a screen shot, save it in local file system
 
 Screen Shots 
