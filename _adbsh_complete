@@ -1,0 +1,33 @@
+_adbsh_complete()
+{
+    local cur prev
+    local cmds="init devices screen_shot shell udev logs"
+    COMPREPLY=()
+    cur=${COMP_WORDS[COMP_CWORD]}
+    prev=${COMP_WORDS[COMP_CWORD-1]}
+    dsn="$(adb devices | grep "^\([0-9a-zA-Z]\)*\([^0-9a-zA-Z]\)device$" | sed -e "s/device$//g" )"
+    alias grep=grep
+    if [ $COMP_CWORD -eq 1 ]; then
+        COMPREPLY=( $(compgen -W "$cmds" -- $cur) )
+    elif [ $COMP_CWORD -eq 2 ]; then
+        case "$prev" in
+        devices)
+            COMPREPLY=( $(compgen -W "all $dsn" -- $cur) )
+            ;;
+        logs)
+            COMPREPLY=( $(compgen -W "$dsn" -- $cur) )
+            ;;
+        screen_shot)
+            COMPREPLY=( $(compgen -W "$dsn" -- $cur) )
+            ;;
+        shell)
+            COMPREPLY=( $(compgen -W "$dsn" -- $cur) )
+            ;;
+        esac
+  fi
+
+  return 0
+}
+# the following line defines what script will use this function to to <tab> completion
+complete -F _adbsh_complete adb.sh
+
