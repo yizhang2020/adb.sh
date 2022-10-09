@@ -12,7 +12,7 @@ Assuming the user knows [how Android adb works](https://developer.android.com/st
 * **shell**: shortcut of **adb -s \<dsn\> shell** -- the beauty is you don't have to enter the **-s \<dsn\>** yourself, the auto-complete feature, \<tab\>\<tab\>, will find it for you
 * **logs** : shortcut of **adb -s \<dsn\> logcat** 
 * **screen_shot**: take a screenshot, save it in the local file system
-* **getprop**: short of **adb -s \<dsn\> shell getprop**, the property file will be saved as text file in local file system
+* **getprop**: shortcut of **adb -s \<dsn\> shell getprop**, the property file will be saved as text file in local file system
 
 ## Install
 There is no actual "install" for this tool set. 
