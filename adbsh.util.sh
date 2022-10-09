@@ -209,20 +209,46 @@ secinfo(){
         | grep "ro.adb.secure\|ro.secure\|ro.vendor.build.security_patch\|ro.debuggable\|ro.crypt\|veri\|security.perf_harden" \
         >> $secf
     perl $adbsh_home/table_beautifier.pl -i $secf
+    # knowledge in code
+    # the expected value of system property and reference I found online
     expect_info "$secf" \
+                "ttps://android.googlesource.com/platform/system/sepolicy/+/38ac77e4c2b3c3212446de2f5ccc42a4311e65fc" \
                 "security.perf_harden" \
-                "This allows the shell user to control whether unprivileged access to perf events is allowed, when value = 1, https://android.googlesource.com/platform/system/sepolicy/+/38ac77e4c2b3c3212446de2f5ccc42a4311e65fc" 
+                "1"
+
     expect_info "$secf" \
-                "ro.boot.veritymode" \
-                "https://source.android.com/docs/security/features/verifiedboot/dm-verity"
+                "https://android.googlesource.com/platform/system/core/+/refs/heads/oreo-mr1-iot-release/rootdir/adb_debug.prop" \
+                "ro.secure" \
+                "1"
+
+    expect_info "$secf" \
+                "https://android.googlesource.com/platform/system/core/+/6ac5d7d/adb/daemon/main.cpp#128" \
+                "ro.adb.secure" \
+                "1"
+
+    expect_info "$secf" \
+                "https://android.googlesource.com/platform/system/core/+/refs/heads/oreo-mr1-iot-release/rootdir/adb_debug.prop" \
+                "ro.debuggable" \
+                "0"
+
+    # the following security property are different from above, the expected values
+    # are vary, sometimes, as long as the property presents, it is secure"
+    expect_info "$secf" \
+                "https://source.android.com/docs/security/features/verifiedboot/dm-verity" \
+                "ro.boot.veritymode" 
+
+    expect_info "$secf" \
+                "https://source.android.com/docs/security/bulletin" \
+                "security_patch" 
 
     echo "Device [$dsn] security info saved in: $secf"
 }
 
 expect_info(){
     local dataf="$1"
-    local expect_str="$2"
-    local comment="$3"
+    local comment="$2"
+    local expect_str="$3"
+    local expect_val="$4"
     if [ "$dataf" != "" ] && \
         [ -f "$dataf" ] && \
         [ "$expect_str" != "" ] && \
@@ -230,6 +256,14 @@ expect_info(){
         if ! grep "$expect_str" $dataf 2>&1>/dev/null; then
             echoRed "Expect  : [$expect_str]"
             echo    "Comment : $comment"
+        else
+            if [ "$expect_val" != "" ];then
+                actual_val=`grep $expect_str $dataf | cut -d "|" -f2 |xargs echo`
+                if [ "$expect_val" != "$actual_val" ];then
+                    echoRed " - Warning, actual $expect_str = [$actual_val], expect [$expect_val]"
+                    echo    " - Comment : $comment"
+                fi
+            fi
         fi
     fi
 }
