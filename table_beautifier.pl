@@ -1,6 +1,6 @@
 #!/usr/bin/perl 
 # Date: Nov. 5, 2013
-# By  : yi zhang (yzhng@lab126.com)
+# By  : yi zhang 
 # File: report_beautifier.pl
 #       it take fixed format, and output data in nice and formatted way
 use strict;
