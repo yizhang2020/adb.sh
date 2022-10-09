@@ -12,6 +12,7 @@ Assuming the user knows [how Android adb works](https://developer.android.com/st
 * **shell**: shortcut of **adb -s \<dsn\> shell** -- the beauty is you don't have to enter the **-s \<dsn\>** yourself, the auto-complete feature, \<tab\>\<tab\>, will find it for you
 * **logs** : shortcut of **adb -s \<dsn\> logcat** 
 * **screen_shot**: take a screenshot, save it in the local file system
+* **getprop**: short of **adb -s \<dsn\> shell getprop**, the property file will be saved as text file in local file system
 
 ## Install
 There is no actual "install" for this tool set. 
@@ -35,10 +36,13 @@ source $adbsh_home/_adbsh_complete
 ![adb.sh udev terminal output](./images/adb-udev.rules.before.and.after.png "adb.sh udev")
 
 ### adb.sh devices
-![adb.sh devices terminal output](./images/adb-devices.png "adb.sh udev")
+![adb.sh devices terminal output](./images/adb-devices.png "adb.sh devices")
 
 ### adb.sh shell
-![adb.sh shell terminal output](./images/adb-shell.png "adb.sh udev")
+![adb.sh shell terminal output](./images/adb-shell.png "adb.sh shell")
 
 ### adb.sh screen_shot
-![adb.sh udev screen_shot output](./images/adb-screen_shot.png "adb.sh udev")
+![adb.sh screen_shot output](./images/adb-screen_shot.png "adb.sh screen_shot")
+
+  ### adb.sh getprop
+![adb.sh getprop output](./images/adb-getprop.png "adb.sh getprop")
