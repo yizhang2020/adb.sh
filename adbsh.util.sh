@@ -199,3 +199,38 @@ getprop(){
     safe_rm $tmpf
 }
 
+secinfo(){
+    local device_dsn="$1"
+    local propf="$tmpdir/getprop.$device_dsn.txt"
+    local secf="$tmpdir/secinfo.$RANDOM.txt"
+    adb -s $device_dsn shell getprop > $propf
+    echo "  security configuration | value " > $secf
+    cat $propf | sed -e "s/]: \[/ | /g" | tr '[' ' ' | tr -d ']' \
+        | grep "ro.adb.secure\|ro.secure\|ro.vendor.build.security_patch\|ro.debuggable\|ro.crypt\|veri\|security.perf_harden" \
+        >> $secf
+    perl $adbsh_home/table_beautifier.pl -i $secf
+    expect_info "$secf" \
+                "security.perf_harden" \
+                "This allows the shell user to control whether unprivileged access to perf events is allowed, when value = 1, https://android.googlesource.com/platform/system/sepolicy/+/38ac77e4c2b3c3212446de2f5ccc42a4311e65fc" 
+    expect_info "$secf" \
+                "ro.boot.veritymode" \
+                "https://source.android.com/docs/security/features/verifiedboot/dm-verity"
+
+    echo "Device [$dsn] security info saved in: $secf"
+}
+
+expect_info(){
+    local dataf="$1"
+    local expect_str="$2"
+    local comment="$3"
+    if [ "$dataf" != "" ] && \
+        [ -f "$dataf" ] && \
+        [ "$expect_str" != "" ] && \
+        [ "$comment" != "" ];then
+        if ! grep "$expect_str" $dataf 2>&1>/dev/null; then
+            echoRed "Expect  : [$expect_str]"
+            echo    "Comment : $comment"
+        fi
+    fi
+}
+

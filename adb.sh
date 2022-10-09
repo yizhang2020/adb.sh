@@ -58,7 +58,7 @@ adbsh_init(){
 ###########################################################
 # global variables                                        #
 ###########################################################
-adbsh_cmds="init devices getprop logs screen_shot shell udev wifi"
+adbsh_cmds="init devices getprop logs screen_shot shell secinfo udev"
 device_history_profile="$adbsh_home/device.history.profile"
 tmpdir="/tmp"
 
@@ -91,11 +91,13 @@ case $cmd in
         exit_if_given_device_not_connected $dsn
         getprop "$dsn"
         ;;
+    secinfo)
+        echo "run android device security information in [$dsn] shell"
+        exit_if_given_device_not_connected $dsn
+        secinfo "$dsn"
+        ;;
     udev)
         $adbsh_home/udev.sh    
-        ;;
-    wifi)
-        echo "wifi"
         ;;
    *)
         echo -n "Command ["; echoRedString "$cmd" ;echo "] does not supported"
