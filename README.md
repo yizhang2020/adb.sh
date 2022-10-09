@@ -9,7 +9,7 @@ Assuming the user knows [how Android adb works](https://developer.android.com/st
 * **init** : automatically install **adb** and **fastboot** binary for you
 * **udev** : automatically check the connected USB devices, create udev rules, and insert them into */etc/udev/rules.d/51-android.rules* file, then reload the rules
 * **devices**: print a text table to list connected android devices
-* **shell**: shortcut of **adb -s \<dsn\> shell** -- the beauty is you don't have to enter the **-s \<dsn\>** yourself, the <tab><tab> will find it for you
+* **shell**: shortcut of **adb -s \<dsn\> shell** -- the beauty is you don't have to enter the **-s \<dsn\>** yourself, the auto-complete feature, \<tab\>\<tab\>, will find it for you
 * **logs** : shortcut of **adb -s \<dsn\> logcat** 
 * **screen_shot**: take a screenshot, save it in the local file system
 
