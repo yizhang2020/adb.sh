@@ -58,7 +58,7 @@ adbsh_init(){
 ###########################################################
 # global variables                                        #
 ###########################################################
-adbsh_cmds="init devices logs screen_shot shell udev wifi"
+adbsh_cmds="init devices getprop logs screen_shot shell udev wifi"
 device_history_profile="$adbsh_home/device.history.profile"
 tmpdir="/tmp"
 
@@ -85,6 +85,11 @@ case $cmd in
     shell)
         echo "get into [$dsn] shell"
         adb -s $dsn shell
+        ;;
+    getprop)
+        echo "run getprop in [$dsn] shell"
+        exit_if_given_device_not_connected $dsn
+        getprop "$dsn"
         ;;
     udev)
         $adbsh_home/udev.sh    

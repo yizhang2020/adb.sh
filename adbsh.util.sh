@@ -186,4 +186,16 @@ exit_if_given_device_not_connected(){
     fi
 }
 
+getprop(){
+    local device_dsn="$1"
+    local propf="$tmpdir/getprop.$device_dsn.txt"
+    local tmpf="$tmpdir/getprop.$RANDOM.txt"
+    adb -s $device_dsn shell getprop > $propf
+    echo "  adb property | property value " > $tmpf
+    cat $propf | sed -e "s/]: \[/ | /g" | tr '[' ' ' | tr -d ']'>> $tmpf
+
+    perl $adbsh_home/table_beautifier.pl -i $tmpf
+    echo "Device [$dsn] getprop saved in: $propf"
+    safe_rm $tmpf
+}
 
