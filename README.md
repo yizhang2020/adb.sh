@@ -1,18 +1,30 @@
 # adb.sh
-In a nutshell, adb.sh is a shell script that extends android adb functionality. The purpose of this script is to provide shortcuts to make the interaction
-with an android device more effictive.
+\<working in progress...>
 
-Assuming the user understands the basic operation of [how Android adb works](https://developer.android.com/studio/command-line/adb), the script 
-**adb.sh** will provide a standard Linux terminal shortcuts  with Double-\<TAB\> (**\<TAB\> \<TAB\>**) for the following operations:
+In a nutshell, adb.sh is a shell script that extends android adb functionality. The purpose of this script is to provide shortcuts to make the interaction with an android device more effective.
+
+Assuming the user knows [how Android adb works](https://developer.android.com/studio/command-line/adb), the script 
+**adb.sh** will provide Linux terminal shortcuts with Double-\<TAB\> (**\<TAB\> \<TAB\>**) for the following operations:
 
 * **init** : automatically install **adb** and **fastboot** binary for you
-* **udev** : automatically check the connected USB devices, create **udev** rules, and insert into /etc/udev/rules.d/51-android.rules file, then reload the rules
+* **udev** : automatically check the connected USB devices, create udev rules, and insert them into */etc/udev/rules.d/51-android.rules* file, then reload the rules
 * **devices**: print a text table to list connected android devices
 * **shell**: shortcut of **adb -s \<dsn\> shell** -- the beauty is you don't have to enter the **-s \<dsn\>** yourself, the <tab><tab> will find it for you
 * **logs** : shortcut of **adb -s \<dsn\> logcat** 
-* **screen_shot**: take a screen shot, save it in local file system
+* **screen_shot**: take a screenshot, save it in the local file system
 
-Screen Shots 
+## Install
+There is no actual "install" for this tool set. 
+
+Download it as a zip file, unzip it and add the local file location to your $PATH variable and you are good to go. The only trick is to enable <TAB> completion: you need to add the following lines in your $HOME/.bashrc file
+
+```shell
+adbsh_home="$HOME/adb.sh/"
+export PATH=$PATH:$adbsh_home
+source $adbsh_home/_adbsh_complete
+```
+
+## Screen Shots 
 ### adb.sh init
 ![adb.sh init terminal output](./images/adb-init.png "adb.sh init")
 
