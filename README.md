@@ -53,7 +53,7 @@ SUBSYSTEM=="usb", ATTRS{idVendor}=="18d1", ATTRS{idProduct}=="4ee7", MODE="0664"
 ```
   3. save the rule in file  **/etc/udev/rules.d/51-android.rules**
   4. reload udev rules by execute: ** service udev reload **
-The shortcut adb.sh udev is simple execute the above 4 steps. The following is my udev rules file
+The shortcut **adb.sh udev** is simple execute the above 4 steps. The following is my udev rules file
 ```bash
 yi@thinkpadx1:/nfs21/export/projects/github/adb.sh $ cat /etc/udev/rules.d/51-android.rules 
 SUBSYSTEM=="usb", ATTRS{idVendor}=="0e8d", ATTRS{idProduct}=="201c", MODE="0664", GROUP="plugdev"
