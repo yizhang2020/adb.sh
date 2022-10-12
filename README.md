@@ -20,12 +20,57 @@ There is no actual "install" for this tool set.
 
 Download it as a zip file, unzip it and add the local file location to your $PATH variable and you are good to go. The only trick is to enable <TAB> completion: you need to add the following lines in your $HOME/.bashrc file
 
-```shell
+```bash
 adbsh_home="$HOME/adb.sh/"
 export PATH=$PATH:$adbsh_home
 source $adbsh_home/_adbsh_complete
 ```
+  
+## Knowledge in Code
+### Adding udev rules for USB debugging Android devices
+To set it up manually, the following procedures apply
+  1. lsusb and locate the id string, like **ID idVendor:idProduct**
+```bash
+yi@thinkpadx1:/nfs21/export/projects/github/adb.sh $ lsusb | sort
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub 
+Bus 001 Device 005: ID 04f2:b614 Chicony Electronics Co., Ltd Integrated Camera 
+Bus 001 Device 007: ID 1949:03c8 Lab126, Inc. KFMUWI
+Bus 001 Device 008: ID 06cb:009a Synaptics, Inc. Metallica MIS Touch Fingerprint Reader 
+Bus 001 Device 010: ID 18d1:4ee7 Google Inc. Nexus/Pixel Device (charging + debug)
+Bus 001 Device 011: ID 18d1:4ee2 Google Inc. Nexus/Pixel Device (MTP + debug)
+Bus 001 Device 012: ID 056a:5193 Wacom Co., Ltd Pen and multitouch sensor 
+Bus 001 Device 014: ID 0bb4:0c01 HTC (High Tech Computer Corp.) Dream / ADP1 / G1 / Magic / Tattoo / FP1
+Bus 001 Device 015: ID 058f:9540 Alcor Micro Corp. AU9540 Smartcard Reader
+Bus 001 Device 016: ID 0bb4:0c01 HTC (High Tech Computer Corp.) Dream / ADP1 / G1 / Magic / Tattoo / FP1
+Bus 001 Device 017: ID 04f2:b615 Chicony Electronics Co., Ltd Integrated IR Camera
+Bus 001 Device 018: ID 8087:0aaa Intel Corp. Bluetooth 9460/9560 Jefferson Peak (JfP)
+Bus 001 Device 020: ID 1949:03f8 Lab126, Inc. Fire
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub 
+```
+  2. generate udev rules like the following
+```text
+SUBSYSTEM=="usb", ATTRS{idVendor}=="18d1", ATTRS{idProduct}=="4ee7", MODE="0664", GROUP="plugdev"
+```
+  3. save the rule in file  **/etc/udev/rules.d/51-android.rules**
+  4. reload udev rules by execute: ** service udev reload **
+The shortcut adb.sh udev is simple execute the above 4 steps. The following is my udev rules file
+```bash
+yi@thinkpadx1:/nfs21/export/projects/github/adb.sh $ cat /etc/udev/rules.d/51-android.rules 
+SUBSYSTEM=="usb", ATTRS{idVendor}=="0e8d", ATTRS{idProduct}=="201c", MODE="0664", GROUP="plugdev"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="0bb4", ATTRS{idProduct}=="0c01", MODE="0664", GROUP="plugdev"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="18d1", ATTRS{idProduct}=="4ee7", MODE="0664", GROUP="plugdev"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="18d1", ATTRS{idProduct}=="4ee2", MODE="0664", GROUP="plugdev"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="1949", ATTRS{idProduct}=="03c8", MODE="0664", GROUP="plugdev"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="1949", ATTRS{idProduct}=="03f8", MODE="0664", GROUP="plugdev"
+```
 
+### Android security properties
+  #### security in getprop
+  [security getprop properties](https://github.com/yizhang2020/adb.sh/blob/main/adbsh.util.sh#L209)
+  ```text
+   209       | grep "ro.adb.secure\|ro.secure\|ro.vendor.build.security_patch\|ro.debuggable\|ro.crypt\|veri\|security.perf_harden" \
+  ```
+  
 ## Screen Shots 
 ### adb.sh init
 ![adb.sh init terminal output](./images/adb-init.png "adb.sh init")
