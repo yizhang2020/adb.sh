@@ -91,6 +91,16 @@ SUBSYSTEM=="usb", ATTRS{idVendor}=="1949", ATTRS{idProduct}=="03f8", MODE="0664"
                 "https://android.googlesource.com/platform/system/core/+/refs/heads/oreo-mr1-iot-release/rootdir/adb_debug.prop" \
                 "ro.debuggable" \
                 "0"
+  
+    # the following security property are different from above, the expected values
+    # are vary, sometimes, as long as the property presents, it is secure"
+    expect_info "$secf" \
+                "https://source.android.com/docs/security/features/verifiedboot/dm-verity" \
+                "ro.boot.veritymode" 
+
+    expect_info "$secf" \
+                "https://source.android.com/docs/security/bulletin" \
+                "security_patch" 
   ```
   
 ## Screen Shots 
