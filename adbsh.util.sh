@@ -206,13 +206,13 @@ secinfo(){
     adb -s $device_dsn shell getprop > $propf
     echo "  security configuration | value " > $secf
     cat $propf | sed -e "s/]: \[/ | /g" | tr '[' ' ' | tr -d ']' \
-        | grep "ro.adb.secure\|ro.secure\|ro.vendor.build.security_patch\|ro.debuggable\|ro.crypt\|veri\|security.perf_harden" \
+        | grep "ro.adb.secure\|ro.secure\|ro.vendor.build.security_patch\|ro.debuggable\|ro.crypt\|veri\|security.perf_harden\|ro.build.selinux" \
         >> $secf
     perl $adbsh_home/table_beautifier.pl -i $secf
     # knowledge in code
     # the expected value of system property and reference I found online
     expect_info "$secf" \
-                "ttps://android.googlesource.com/platform/system/sepolicy/+/38ac77e4c2b3c3212446de2f5ccc42a4311e65fc" \
+                "https://android.googlesource.com/platform/system/sepolicy/+/38ac77e4c2b3c3212446de2f5ccc42a4311e65fc" \
                 "security.perf_harden" \
                 "1"
 
@@ -242,6 +242,14 @@ secinfo(){
                 "security_patch" 
 
     echo "Device [$dsn] security info saved in: $secf"
+
+    echo "- system config -"
+    selinux_val=`adb -s $device_dsn shell cat /sys/fs/selinux/enforce`
+    if [ "$selinux_val" = "1" ];then
+        echoGreen "SELinux status: enforcing mode"
+    else
+        echoRed "SELinux status: not enforced, check /sys/fs/selinux/enforce"
+    fi
 }
 
 expect_info(){
