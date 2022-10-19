@@ -54,13 +54,30 @@ adbsh_init(){
     done
 }
 
-
+usage(){
+    echo "Usage: adb.sh <commands>"
+    echo "commands: "
+    echo "        : init - install necessary ubuntu packages for adb.sh"
+    echo "        : udev - check USB connected devices, parse idProduct and idVendor, add udev rulest"
+    echo "        : devices     - list all adb/fastboot connnected devices"
+    echo "        : screen_shot - take a screenshot and save it local filesystem"
+    echo "        : secinfo     - list security related adb properties and SELinux info"
+    echo "        : logs        - shortcut of 'adb -s <dsn> logcat'"
+    echo "        : shell       - shortcut of 'adb -s <dsn> shell"
+    echo "        : getprop     - shortcut of 'adb -s <dsn> shell getprop"
+    echo "Example: adb.sh devices"
+}
 ###########################################################
 # global variables                                        #
 ###########################################################
 adbsh_cmds="init devices getprop logs screen_shot shell secinfo udev"
 device_history_profile="$adbsh_home/device.history.profile"
 tmpdir="/tmp"
+
+if [ $# -eq 0 ];then
+    usage
+    exit
+fi
 
 cmd=${1:=""}
 shift
