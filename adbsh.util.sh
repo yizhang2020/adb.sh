@@ -276,3 +276,22 @@ expect_info(){
     fi
 }
 
+
+collect_package_info(){
+    local device_dsn="$1"
+    local packages=`adb -s $device_dsn shell pm list packages -f`
+    local info_tmp="$tmpdir/package.info.$device_dsn.$RANDOM.txt"
+    local info_tmp_2="$tmpdir/package.info.$device_dsn.$RANDOM.txt"
+    echo "#package name | package install path" > $info_tmp
+    echo "" > $info_tmp_2
+    for package in $packages
+    do
+        pkg_path=`echo "$package" | sed -e "s/package://g" | rev | cut -d"=" -f1-| rev | xargs echo`
+        pkg_name=`echo "$package" | sed -e "s/package://g" | rev | cut -d"=" -f1| rev |xargs echo`
+        echo "$pkg_name | $pkg_path" >> $info_tmp_2
+    done
+    cat $info_tmp_2 | sort >> $info_tmp
+    perl $adbsh_home/table_beautifier.pl -i $info_tmp
+    safe_rm $info_tmp_2
+    echoGreen "package info for device [$deice_dsn] saved as: $info_tmp"
+}

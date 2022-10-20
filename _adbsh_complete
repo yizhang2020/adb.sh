@@ -1,7 +1,7 @@
 _adbsh_complete()
 {
     local cur prev
-    local cmds="init devices getprop screen_shot secinfo shell udev logs"
+    local cmds="pkginfo init devices getprop screen_shot secinfo shell udev logs"
     COMPREPLY=()
     cur=${COMP_WORDS[COMP_CWORD]}
     prev=${COMP_WORDS[COMP_CWORD-1]}
@@ -13,6 +13,9 @@ _adbsh_complete()
         case "$prev" in
         devices)
             COMPREPLY=( $(compgen -W "all $dsn" -- $cur) )
+            ;;
+        pkginfo)
+            COMPREPLY=( $(compgen -W "$dsn" -- $cur) )
             ;;
         logs)
             COMPREPLY=( $(compgen -W "$dsn" -- $cur) )

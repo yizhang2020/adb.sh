@@ -70,7 +70,7 @@ usage(){
 ###########################################################
 # global variables                                        #
 ###########################################################
-adbsh_cmds="init devices getprop logs screen_shot shell secinfo udev"
+adbsh_cmds="appinfo init devices getprop logs screen_shot shell secinfo udev"
 device_history_profile="$adbsh_home/device.history.profile"
 tmpdir="/tmp"
 
@@ -86,6 +86,11 @@ shift
 rest="$@"
 
 case $cmd in
+    pkginfo)
+        exit_if_given_device_not_connected $dsn
+        echo "collecting installed package informatio for device [$dsn]"
+        collect_package_info $dsn
+        ;;
     init)
         adbsh_init
         ;;
@@ -104,8 +109,8 @@ case $cmd in
         adb -s $dsn shell
         ;;
     getprop)
-        echo "run getprop in [$dsn] shell"
         exit_if_given_device_not_connected $dsn
+        echo "run getprop in [$dsn] shell"
         getprop "$dsn"
         ;;
     secinfo)
