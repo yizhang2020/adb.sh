@@ -282,7 +282,7 @@ collect_package_info(){
     local packages=`adb -s $device_dsn shell pm list packages -f`
     local info_tmp="$tmpdir/package.info.$device_dsn.$RANDOM.txt"
     local info_tmp_2="$tmpdir/package.info.$device_dsn.$RANDOM.txt"
-    echo "#package name | package install path" > $info_tmp
+    echo " package name | package install path" > $info_tmp
     echo "" > $info_tmp_2
     for package in $packages
     do
