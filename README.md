@@ -14,6 +14,7 @@ Assuming the user knows [how Android adb works](https://developer.android.com/st
 * **screen_shot**: take a screenshot, save it in the local file system
 * **getprop**: shortcut of **adb -s \<dsn\> shell getprop**, the property file will be saved as text file in local file system
 * **secinfo**: a comprehensive list of security configuration on the device. It combines data from system property and current kernel status
+* **pkginfo**: shortcut of **adb -s  \<dsn\> shell pm list packages -f**, to list all installed packages and it's path
 
 ## Install
 There is no actual "install" for this tool set. 
@@ -127,3 +128,6 @@ SUBSYSTEM=="usb", ATTRS{idVendor}=="1949", ATTRS{idProduct}=="03f8", MODE="0664"
 
 ### adb.sh secinfo
 ![adb.sh security status report output](./images/adb-secinfo.png "adb.sh secinfo")
+
+### adb.sh pkginfo
+![adb.sh installed package on the device](./images/adb-pkginfo.png "adb.sh pkginfo")
