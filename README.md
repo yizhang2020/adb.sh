@@ -66,15 +66,15 @@ SUBSYSTEM=="usb", ATTRS{idVendor}=="1949", ATTRS{idProduct}=="03f8", MODE="0664"
 ```
 
 ### Android security properties
-  #### security in getprop
+  #### code: security in getprop
   [security getprop properties](https://github.com/yizhang2020/adb.sh/blob/main/adbsh.util.sh#L209)
   ```text
    209       | grep "ro.adb.secure\|ro.secure\|ro.vendor.build.security_patch\|ro.debuggable\|ro.crypt\|veri\|security.perf_harden" \
   ```
-  reference of each security properties
+  Reference of each security property in code
   ```bash
     expect_info "$secf" \
-                "ttps://android.googlesource.com/platform/system/sepolicy/+/38ac77e4c2b3c3212446de2f5ccc42a4311e65fc" \
+                "https://android.googlesource.com/platform/system/sepolicy/+/38ac77e4c2b3c3212446de2f5ccc42a4311e65fc" \
                 "security.perf_harden" \
                 "1"
 
@@ -104,7 +104,7 @@ SUBSYSTEM=="usb", ATTRS{idVendor}=="1949", ATTRS{idProduct}=="03f8", MODE="0664"
                 "security_patch" 
   ```
   
-## Screen Shots 
+## adb.sh Command Execution Screen Shots
 ### adb.sh init
 ![adb.sh init terminal output](./images/adb-init.png "adb.sh init")
 
